@@ -3,7 +3,6 @@
 package tray
 
 import (
-	"fmt"
 	"os"
 	"os/exec"
 
