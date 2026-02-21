@@ -62,7 +62,7 @@ No account. No cloud. No subscription. Everything stays on your machine.
 
 The Companion is a lightweight background app (~10 MB). It runs a local WebSocket server on `localhost:9234`. It **never connects to the internet**.
 
-**Download from [GitHub Releases](https://github.com/harshvasudeva/synctabs/releases/latest):**
+**Download from [GitHub Releases](https://github.com/harshvasudeva/sync-it-up/releases/latest):**
 
 | Platform | File |
 |----------|------|
