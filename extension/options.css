@@ -1,0 +1,322 @@
+:root {
+  --bg: #1a1b26;
+  --bg-section: #24253a;
+  --bg-hover: #2f3050;
+  --text: #c0caf5;
+  --text-dim: #565f89;
+  --text-bright: #e0e6ff;
+  --accent: #7aa2f7;
+  --accent-dim: #3d59a1;
+  --green: #9ece6a;
+  --red: #f7768e;
+  --border: #32344a;
+  --radius: 8px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
+  padding: 32px 24px 80px;
+  min-height: 100vh;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+h1 {
+  color: var(--text-bright);
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: var(--text-dim);
+  font-size: 12px;
+  margin-bottom: 24px;
+}
+
+.section {
+  background: var(--bg-section);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.section h2 {
+  font-size: 14px;
+  color: var(--text-bright);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.field label {
+  display: block;
+  font-size: 12.5px;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+
+.field .hint {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 3px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.toggle-row .label-group {
+  flex: 1;
+}
+
+.toggle-row .label-group .name {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.toggle-row .label-group .desc {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 1px;
+}
+
+/* Toggle Switch */
+.toggle {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--border);
+  border-radius: 22px;
+  transition: 0.2s;
+}
+
+.toggle .slider::before {
+  content: '';
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background: var(--text-dim);
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.toggle input:checked + .slider {
+  background: var(--accent-dim);
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(18px);
+  background: var(--accent);
+}
+
+/* Status */
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: var(--bg);
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-dot.online {
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+}
+
+.status-dot.offline {
+  background: var(--text-dim);
+}
+
+.status-text {
+  font-size: 12px;
+  color: var(--text);
+}
+
+/* Buttons */
+.btn-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.btn-primary:hover {
+  background: var(--text-bright);
+}
+
+.btn-danger {
+  background: rgba(247, 118, 142, 0.15);
+  color: var(--red);
+  border: 1px solid rgba(247, 118, 142, 0.3);
+}
+
+.btn-danger:hover {
+  background: rgba(247, 118, 142, 0.25);
+}
+
+.btn-ghost {
+  background: none;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+  color: var(--text);
+  border-color: var(--text-dim);
+}
+
+.saved-msg {
+  font-size: 12px;
+  color: var(--green);
+  margin-left: 10px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.saved-msg.show {
+  opacity: 1;
+}
+
+.info-box {
+  background: rgba(122, 162, 247, 0.08);
+  border: 1px solid var(--accent-dim);
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.info-box strong {
+  color: var(--text);
+}
+
+.info-box a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.info-box a:hover {
+  text-decoration: underline;
+}
+
+.hint {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+/* Status row inline items */
+.browser-id-label {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.browser-id-value {
+  font-size: 11px;
+  color: var(--text);
+  font-family: monospace;
+}
+
+.data-hint {
+  margin-top: 8px;
+}
+
+/* Footer */
+.options-footer {
+  max-width: 640px;
+  margin: 32px auto 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.footer-credit {
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.footer-credit:hover {
+  color: var(--accent);
+}
+
+/* Hide grant button until JS determines permission state */
+#btn-grant-permission {
+  display: none;
+}

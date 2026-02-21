@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "SyncTabs - Cross Browser Tab Sync",
+  "version": "1.0.2",
+  "description": "View and sync open tabs across all your Chromium browsers. Tabs persist even after browser close. Works with Chrome, Edge, Brave, Vivaldi, Opera.",
+  "permissions": [
+    "tabs",
+    "storage",
+    "alarms"
+  ],
+  "optional_host_permissions": [
+    "http://127.0.0.1:9234/*",
+    "http://127.0.0.1:9235/*",
+    "http://127.0.0.1:9236/*",
+    "http://127.0.0.1:9237/*",
+    "http://127.0.0.1:9238/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  }
+}

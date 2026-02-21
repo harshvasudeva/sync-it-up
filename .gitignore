@@ -1,0 +1,64 @@
+# ─── Build & Binaries ─────────────────────────────────────────────────────
+*.exe
+*.dmg
+*.deb
+*.so
+*.dylib
+dist/
+build/
+*.o
+*.a
+
+# ─── Go ────────────────────────────────────────────────────────────────────
+companion/synctabs-companion
+companion/synctabs-companion-*
+companion/.vscode/
+go.sum
+
+# ─── Node ──────────────────────────────────────────────────────────────────
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-error.log*
+.npm
+
+# ─── Runtime Data ─────────────────────────────────────────────────────────
+# Data stored by the companion app (tabs, logs, config — user-specific)
+%APPDATA%/SyncTabs/
+~/.local/share/SyncTabs/
+~/Library/Application\ Support/SyncTabs/
+
+# Extension storage (per browser instance)
+synctabs_*.json
+
+# ─── IDE & Editor ──────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ─── OS ────────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# ─── Environment ──────────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ─── Logs ──────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ─── Temporary ──────────────────────────────────────────────────────────────
+tmp/
+temp/
+*.tmp
+*.bak

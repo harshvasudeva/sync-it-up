@@ -1,0 +1,171 @@
+name: Release
+
+# Trigger: push a tag like v1.0.0
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write   # needed to create GitHub Releases
+
+jobs:
+  # ── Windows ────────────────────────────────────────────────────────────────
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.21"
+
+      - name: Build Windows exe
+        working-directory: companion
+        run: |
+          go build -ldflags "-H windowsgui -X github.com/harshvasudeva/synctabs-companion/config.AppVersion=${{ github.ref_name }}" `
+            -o ../dist/synctabs-companion-windows-amd64.exe .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-amd64
+          path: dist/synctabs-companion-windows-amd64.exe
+
+  # ── macOS (Apple Silicon + Intel) ─────────────────────────────────────────
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.21"
+
+      - name: Build macOS arm64 (Apple Silicon)
+        working-directory: companion
+        run: |
+          go build \
+            -ldflags "-X github.com/harshvasudeva/synctabs-companion/config.AppVersion=${{ github.ref_name }}" \
+            -o ../dist/synctabs-companion-darwin-arm64 .
+        env:
+          GOARCH: arm64
+
+      - name: Build macOS amd64 (Intel)
+        working-directory: companion
+        run: |
+          go build \
+            -ldflags "-X github.com/harshvasudeva/synctabs-companion/config.AppVersion=${{ github.ref_name }}" \
+            -o ../dist/synctabs-companion-darwin-amd64 .
+        env:
+          GOARCH: amd64
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos
+          path: |
+            dist/synctabs-companion-darwin-arm64
+            dist/synctabs-companion-darwin-amd64
+
+  # ── Linux ──────────────────────────────────────────────────────────────────
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.21"
+
+      - name: Install GTK dependencies (required for systray)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libayatana-appindicator3-dev
+
+      - name: Build Linux amd64
+        working-directory: companion
+        run: |
+          go build \
+            -ldflags "-X github.com/harshvasudeva/synctabs-companion/config.AppVersion=${{ github.ref_name }}" \
+            -o ../dist/synctabs-companion-linux-amd64 .
+
+      - name: Build .deb package
+        run: |
+          VERSION="${{ github.ref_name }}"
+          VERSION="${VERSION#v}"   # strip leading 'v'
+          DEB_ROOT="dist/deb/synctabs-companion_${VERSION}_amd64"
+
+          mkdir -p "$DEB_ROOT/DEBIAN"
+          mkdir -p "$DEB_ROOT/usr/local/bin"
+          mkdir -p "$DEB_ROOT/usr/share/applications"
+
+          # Binary
+          cp dist/synctabs-companion-linux-amd64 "$DEB_ROOT/usr/local/bin/synctabs-companion"
+          chmod +x "$DEB_ROOT/usr/local/bin/synctabs-companion"
+
+          # control file
+          cat > "$DEB_ROOT/DEBIAN/control" << EOF
+          Package: synctabs-companion
+          Version: ${VERSION}
+          Section: utils
+          Priority: optional
+          Architecture: amd64
+          Depends: libgtk-3-0, libayatana-appindicator3-1
+          Maintainer: Harsh Vasudeva <harsh@example.com>
+          Description: SyncTabs Companion
+           Local WebSocket server for cross-browser tab sync.
+           Runs as a background tray app on localhost:9234.
+          EOF
+
+          # .desktop for autostart (optional — user can enable via tray)
+          cat > "$DEB_ROOT/usr/share/applications/synctabs-companion.desktop" << EOF
+          [Desktop Entry]
+          Name=SyncTabs Companion
+          Exec=/usr/local/bin/synctabs-companion
+          Icon=synctabs
+          Type=Application
+          Categories=Utility;
+          Comment=Cross-browser tab sync companion
+          EOF
+
+          dpkg-deb --build "$DEB_ROOT" "dist/synctabs-companion_${VERSION}_amd64.deb"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-amd64
+          path: |
+            dist/synctabs-companion-linux-amd64
+            dist/synctabs-companion_*_amd64.deb
+
+  # ── GitHub Release ─────────────────────────────────────────────────────────
+  release:
+    needs: [build-windows, build-macos, build-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "SyncTabs Companion ${{ github.ref_name }}"
+          body: |
+            ## SyncTabs Companion ${{ github.ref_name }}
+
+            ### Download
+            | Platform | File |
+            |----------|------|
+            | Windows (x64) | `synctabs-companion-windows-amd64.exe` |
+            | macOS (Apple Silicon) | `synctabs-companion-darwin-arm64` |
+            | macOS (Intel) | `synctabs-companion-darwin-amd64` |
+            | Linux (x64) | `synctabs-companion-linux-amd64` |
+            | Linux .deb (x64) | `synctabs-companion_*_amd64.deb` |
+
+            ### Install
+            See [README.md](https://github.com/${{ github.repository }}#readme) for full installation instructions.
+          files: artifacts/**
+          draft: false
+          prerelease: false

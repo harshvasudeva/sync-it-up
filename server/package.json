@@ -1,0 +1,25 @@
+{
+  "name": "synctabs-companion",
+  "version": "1.0.0",
+  "description": "SyncTabs Companion — local sync server for the SyncTabs browser extension",
+  "main": "server.js",
+  "bin": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js --verbose",
+    "build:win": "npx pkg server.js -t node18-win-x64 -o dist/synctabs-companion-win.exe",
+    "build:mac": "npx pkg server.js -t node18-macos-x64 -o dist/synctabs-companion-mac",
+    "build:linux": "npx pkg server.js -t node18-linux-x64 -o dist/synctabs-companion-linux",
+    "build:all": "npm run build:win && npm run build:mac && npm run build:linux"
+  },
+  "dependencies": {
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.1"
+  },
+  "pkg": {
+    "assets": [],
+    "targets": ["node18-win-x64", "node18-macos-x64", "node18-linux-x64"]
+  }
+}

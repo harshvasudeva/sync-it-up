@@ -1,0 +1,21 @@
+{
+  "chrome_web_store": {
+    "name": "SyncTabs - Cross Browser Tab Sync",
+    "short_description": "View and sync open tabs across all your Chromium browsers. Tabs persist even after browser close.",
+    "detailed_description": "SyncTabs lets you see all your open tabs from every Chromium browser — Chrome, Edge, Brave, Vivaldi, Opera — in one place.\n\n✨ FEATURES\n• View all your tabs from this browser in the popup\n• Tabs persist even after browser close or crash\n• Click tabs to switch to them instantly\n• Tabs grouped by browser window\n• Shows active tabs and pinned tabs\n• Dark themed, lightweight popup\n\n🔗 CROSS-BROWSER SYNC (optional)\nInstall the free SyncTabs Companion app to sync tabs across browsers:\n• See tabs from all your browsers in real-time\n• Tabs from offline browsers shown with 'last seen' timestamp\n• Everything stays on your machine — no cloud, no account\n• Companion runs on localhost only (127.0.0.1)\n\n🔒 PRIVACY\n• No data is sent to any external server\n• No account required\n• All tab data stored locally\n• Optional Companion uses localhost only\n• Open source\n\n⚙️ HOW IT WORKS\nStandalone: Extension saves your tabs locally and shows them in the popup.\nWith Companion: A lightweight local WebSocket server connects all your browsers for real-time tab sync.\n\nPermissions:\n• tabs: Read your open tabs\n• storage: Save tabs and settings locally\n• alarms: Keep tabs saved and connection alive\n• localhost (optional): Connect to Companion for cross-browser sync",
+    "category": "Productivity",
+    "language": "en",
+    "single_purpose": "View and sync browser tabs across Chromium browsers with local persistence"
+  },
+  "edge_addons": {
+    "name": "SyncTabs - Cross Browser Tab Sync",
+    "short_description": "View and sync open tabs across all your Chromium browsers. Tabs persist even after browser close.",
+    "category": "Productivity",
+    "support_url": "https://github.com/user/synctabs-companion/issues"
+  },
+  "opera_addons": {
+    "name": "SyncTabs - Cross Browser Tab Sync",
+    "short_description": "View and sync open tabs across all your Chromium browsers.",
+    "category": "Web Development"
+  }
+}

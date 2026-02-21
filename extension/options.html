@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SyncTabs Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <h1>⚡ SyncTabs Settings</h1>
+  <p class="subtitle">Configure cross-browser tab synchronization</p>
+
+  <!-- Connection Status -->
+  <div class="section">
+    <h2>📡 Connection Status</h2>
+    <div class="status-row">
+      <span class="status-dot" id="status-dot"></span>
+      <span class="status-text" id="status-text">Checking...</span>
+    </div>
+    <div class="status-row">
+      <span class="browser-id-label">Browser ID:</span>
+      <span class="browser-id-value" id="browser-id">—</span>
+    </div>
+  </div>
+
+  <!-- Server Settings -->
+  <div class="section">
+    <h2>🔗 Cross-Browser Sync</h2>
+
+    <div class="toggle-row">
+      <div class="label-group">
+        <div class="name">Enable sync server</div>
+        <div class="desc">Connect to local SyncTabs Companion to sync tabs across browsers</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="toggle-server">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="field" id="field-server-url">
+      <label>Server URL</label>
+      <input type="text" id="input-server-url" placeholder="ws://127.0.0.1:9234">
+      <div class="hint">Default: ws://127.0.0.1:9234 — Only change if running server on a different port</div>
+    </div>
+
+    <div class="toggle-row">
+      <div class="label-group">
+        <div class="name">Auto-detect server</div>
+        <div class="desc">Periodically check if the Companion server is running</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="toggle-auto-detect">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-save">Save Settings</button>
+      <button class="btn btn-ghost" id="btn-test">Test Connection</button>
+      <span class="saved-msg" id="saved-msg">Saved!</span>
+    </div>
+  </div>
+
+  <!-- Companion App Control Panel -->
+  <div class="section" id="section-companion">
+    <h2>🖥️ Companion App</h2>
+
+    <div class="status-row">
+      <span class="status-dot" id="companion-status-dot"></span>
+      <span class="status-text" id="companion-status-text">Checking...</span>
+    </div>
+
+    <div id="companion-controls" style="display:none">
+
+      <div class="field">
+        <label>Port</label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input type="number" id="companion-port" min="1024" max="65535"
+                 placeholder="9234" style="width:120px">
+          <button class="btn btn-ghost" id="btn-apply-port">Apply</button>
+        </div>
+        <div class="hint">
+          Changing the port also requires updating the Server URL above and re-granting localhost permission for the new port.
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Data Folder</label>
+        <input type="text" id="companion-data-folder"
+               placeholder="C:\Users\...\AppData\Roaming\SyncTabs\data">
+        <div class="hint">Where tabs.json and pending-tabs.json are stored.</div>
+      </div>
+
+      <div class="field">
+        <label>Log Level</label>
+        <select id="companion-log-level">
+          <option value="debug">Debug</option>
+          <option value="info">Info</option>
+          <option value="warn">Warning</option>
+          <option value="error">Error</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Max Tabs Per Browser</label>
+        <input type="number" id="companion-max-tabs" min="10" max="2000"
+               placeholder="500" style="width:120px">
+      </div>
+
+      <div class="toggle-row">
+        <div class="label-group">
+          <div class="name">Start with Windows</div>
+          <div class="desc">Automatically launch companion when you log in</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="companion-auto-start">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="btn-row" style="margin-top:16px">
+        <button class="btn btn-primary" id="btn-save-companion">Save Settings</button>
+        <button class="btn btn-ghost" id="btn-restart-companion">Restart Companion</button>
+        <span class="saved-msg" id="companion-saved-msg">Saved!</span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="btn-companion-logs">View Logs (via Tray)</button>
+      </div>
+    </div>
+
+    <div id="companion-unavailable" class="hint" style="margin-top:8px;display:none">
+      Companion app is not running.
+      <a href="https://github.com/harshvasudeva/synctabs-companion/releases"
+         target="_blank" rel="noopener">Download it here</a>
+      to enable cross-browser sync without keeping a terminal open.
+    </div>
+  </div>
+
+  <!-- Permission -->
+  <div class="section" id="section-permission">
+    <h2>🔐 Permission</h2>
+    <div class="info-box">
+      <strong>Localhost access</strong> is needed to connect to the local sync server.
+      This is an <strong>optional permission</strong> — the extension works fully without it (local-only mode).
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-grant-permission">Grant Permission</button>
+      <span class="status-text" id="perm-status">Checking...</span>
+    </div>
+  </div>
+
+  <!-- Data -->
+  <div class="section">
+    <h2>🗂 Data</h2>
+    <div class="btn-row">
+      <button class="btn btn-danger" id="btn-clear-remote">Clear Remote Browser Data</button>
+    </div>
+    <div class="hint data-hint">
+      Removes cached tabs from other browsers. They'll re-sync when reconnected.
+    </div>
+  </div>
+
+  <!-- About -->
+  <div class="section">
+    <h2>ℹ️ About</h2>
+    <div class="info-box">
+      <strong>SyncTabs v1.0.1</strong><br>
+      View and sync open tabs across Chromium browsers.<br><br>
+      The extension works standalone to save your tabs locally. For cross-browser sync,
+      install the free <a href="#" id="link-companion">SyncTabs Companion</a> app.<br><br>
+      Your data stays on your machine — nothing is sent to the cloud.
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="options-footer">
+    <span>SyncTabs v1.0.1</span>
+    <a id="footer-credit" href="#" class="footer-credit">
+      Developed by Harsh Vasudeva
+    </a>
+  </footer>
+
+  <script src="options.js"></script>
+</body>
+</html>

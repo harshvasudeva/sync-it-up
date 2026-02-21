@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SyncTabs</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <svg class="logo" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+          <circle cx="20" cy="6" r="2" fill="currentColor"/>
+          <circle cx="20" cy="18" r="2" fill="currentColor"/>
+        </svg>
+        <h1>SyncTabs</h1>
+      </div>
+      <div class="header-right">
+        <button id="btn-settings" class="btn-icon" title="Settings">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+        <span id="connection-dot" class="dot dot-offline" title="Disconnected"></span>
+        <button id="btn-sync" class="btn-icon" title="Force Sync">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 2v6h-6M3 22v-6h6"/>
+            <path d="M21 12A9 9 0 0 0 6 5.3L3 8M3 12a9 9 0 0 0 15 6.7l3-2.7"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Server Setup Banner (shown when server not detected) -->
+    <div id="server-banner" class="server-banner" style="display:none">
+      <div class="banner-content">
+        <div class="banner-icon">🔗</div>
+        <div class="banner-text">
+          <strong>Cross-browser sync available</strong>
+          <p>Install the free SyncTabs Companion to sync tabs across browsers.</p>
+        </div>
+      </div>
+      <div class="banner-actions">
+        <button id="btn-enable-sync" class="btn-primary btn-sm">Enable Sync</button>
+        <button id="btn-dismiss-banner" class="btn-ghost btn-sm">Dismiss</button>
+      </div>
+    </div>
+
+    <!-- This Browser -->
+    <section class="section" id="section-self">
+      <div class="section-header" data-toggle="self-tabs">
+        <div class="section-title">
+          <span class="browser-icon" id="self-browser-icon">🌐</span>
+          <span id="self-browser-name">This Browser</span>
+          <span class="tab-count" id="self-tab-count">0</span>
+          <span class="dot dot-online" style="margin-left:6px"></span>
+        </div>
+        <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 9l6 6 6-6"/>
+        </svg>
+      </div>
+      <div class="tab-list" id="self-tabs"></div>
+    </section>
+
+    <!-- Remote Browsers -->
+    <div id="remote-browsers"></div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="empty-state" style="display:none">
+      <div id="empty-no-server" style="display:none">
+        <p>📋 Your tabs are saved locally.</p>
+        <p class="hint">To see tabs from other browsers, install the <a href="#" id="link-companion">SyncTabs Companion</a> app.</p>
+      </div>
+      <div id="empty-no-browsers" style="display:none">
+        <p>No other browsers connected yet.</p>
+        <p class="hint">Install SyncTabs in another browser to see its tabs here.</p>
+      </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Server Status Bar -->
+    <footer class="footer">
+      <span id="server-status">Loading...</span>
+      <span class="footer-sep">·</span>
+      <a id="footer-credit" class="footer-link" href="#" title="GitHub">by Harsh Vasudeva</a>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

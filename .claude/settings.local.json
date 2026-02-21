@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "WebFetch(domain:developer.chrome.com)",
+      "WebFetch(domain:brave.com)",
+      "Bash(powershell -Command \"Get-Content ''E:\\\\Vibe Coding\\\\Extension-synctabs\\\\server\\\\data\\\\tabs.json'' | Select-String ''\"\"microsoft-edge|\"\"google-chrome|\"\"brave|browserName'' | Select-Object -First 20\")",
+      "Bash(powershell -Command:*)",
+      "Bash(node -e:*)",
+      "Bash(node clean-store.js:*)",
+      "Bash(del \"E:\\\\Vibe Coding\\\\Extension-synctabs\\\\server\\\\clean-store.js\")",
+      "Bash(netstat:*)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(cd:*)",
+      "Bash(convert:*)",
+      "Bash(python3:*)",
+      "Bash(export PATH=\"$PATH:/c/Program Files/Go/bin\")",
+      "Bash(go version:*)",
+      "Bash(go mod tidy:*)",
+      "Bash(GOOS=windows GOARCH=amd64 go build:*)",
+      "Bash(go build:*)",
+      "Bash(timeout:*)",
+      "Bash(taskkill:*)",
+      "Bash(git init:*)",
+      "Bash(git config:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

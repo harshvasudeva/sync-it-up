@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to SyncTabs</title>
+  <link rel="stylesheet" href="onboarding.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-icon">🔄</div>
+      <h1>Welcome to SyncTabs</h1>
+      <p>Your tabs, saved and synced across every Chromium browser.<br>Works right away — no account needed.</p>
+    </div>
+
+    <!-- How it Works -->
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Already working! <span class="badge">automatic</span></h3>
+          <p>SyncTabs is now saving all your open tabs locally. Even if this browser crashes or closes, your tabs are preserved. Click the SyncTabs icon in your toolbar to see them.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Want tabs from other browsers? <span class="badge badge-optional">optional</span></h3>
+          <p>To see tabs from Chrome, Edge, Brave, etc. all in one place, install the free <strong>SyncTabs Companion</strong> app. It's a tiny local server that connects your browsers — no cloud, no account.</p>
+          <p class="companion-link-wrapper">
+            <a href="#" id="link-companion" class="companion-link">Download SyncTabs Companion →</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Install in each browser</h3>
+          <p>Install this extension in every browser you want to sync. Each browser will show up automatically when connected.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">💾</div>
+        <div class="feature-text">
+          <strong>Tab Persistence</strong>
+          Tabs survive closes &amp; crashes
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-text">
+          <strong>Real-Time Sync</strong>
+          Instant updates via WebSocket
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-text">
+          <strong>100% Local</strong>
+          Nothing leaves your machine
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🌐</div>
+        <div class="feature-text">
+          <strong>All Chromium</strong>
+          Chrome, Edge, Brave, Vivaldi, Opera
+        </div>
+      </div>
+    </div>
+
+    <!-- Modes Comparison -->
+    <div class="modes">
+      <h2>Two modes of operation</h2>
+      <div class="mode-comparison">
+        <div class="mode-card">
+          <h4>🟡 Local-Only (default)</h4>
+          <ul>
+            <li>Save all your open tabs</li>
+            <li>Persist across closes</li>
+            <li>Quick tab switching</li>
+            <li>No server needed</li>
+          </ul>
+        </div>
+        <div class="mode-card">
+          <h4>🟢 Cross-Browser Sync</h4>
+          <ul>
+            <li>Everything in local mode</li>
+            <li>See tabs from all browsers</li>
+            <li>Real-time sync</li>
+            <li>Requires Companion app</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+      <button class="btn btn-primary" id="btn-close">Got it — start using SyncTabs</button>
+      <button class="btn btn-ghost" id="btn-settings">Open Settings</button>
+      <p>You can always change settings by right-clicking the extension icon → Options</p>
+    </div>
+  </div>
+
+  <script src="onboarding.js"></script>
+</body>
+</html>
