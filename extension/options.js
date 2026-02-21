@@ -1,6 +1,6 @@
 ﻿// ─── SyncTabs Options Page Logic ──────────────────────────────────────────────
 
-const COMPANION_URL = 'https://github.com/harshvasudeva';
+const COMPANION_URL = 'https://github.com/harshvasudeva/sync-it-up/releases';
 const AUTHOR_GITHUB = 'https://github.com/harshvasudeva';
 
 // DOM elements
