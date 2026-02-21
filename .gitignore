@@ -65,3 +65,4 @@ temp/
 *.zip
 *.tar.gz
 *.tar
+*.pem
