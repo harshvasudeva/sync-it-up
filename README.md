@@ -109,6 +109,29 @@ chmod +x synctabs-companion-linux-amd64
 
 ---
 
+### Alternative: Run Dev Server (for development)
+
+If you're working on the extension or companion code, you can run the **Node.js development server** instead:
+
+```bash
+# Windows
+start-server.bat
+
+# macOS / Linux
+./start-server.sh
+```
+
+This will:
+1. Check for Node.js installation
+2. Install dependencies (`npm install`)
+3. Start the server on `localhost:9234`
+
+Press **Ctrl+C** to stop.
+
+> **Note:** The dev server is useful for development. For production use, download the compiled Go companion app from [GitHub Releases](https://github.com/harshvasudeva/sync-it-up/releases) instead.
+
+---
+
 ### Step 3 — Grant Permission (one-time, per browser)
 
 The extension needs permission to talk to `localhost:9234`:
