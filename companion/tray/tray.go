@@ -2,7 +2,6 @@ package tray
 
 import (
 	"fmt"
-	"os/exec"
 	"time"
 
 	"fyne.io/systray"
@@ -53,7 +52,8 @@ func onReady() {
 
 	systray.AddSeparator()
 
-	mAutoStart = systray.AddMenuItem("Start with Windows", "Toggle Windows auto-start")
+	autoStartLabel := getAutoStartLabel()
+	mAutoStart = systray.AddMenuItem(autoStartLabel, "Toggle auto-start on system login")
 	if startup.IsRegistered() {
 		mAutoStart.Check()
 	}
@@ -174,35 +174,7 @@ func toggleAutoStart() {
 	}
 }
 
-func openFolder(path string) {
-	if err := exec.Command("explorer.exe", path).Start(); err != nil {
-		logger.Warn("Failed to open folder: %v", err)
-	}
-}
-
-func openInNotepad(path string) {
-	if path == "" {
-		logger.Warn("Log path not set")
-		return
-	}
-	if err := exec.Command("notepad.exe", path).Start(); err != nil {
-		logger.Warn("Failed to open notepad: %v", err)
-	}
-}
-
-// showNotification shows a Windows balloon notification using PowerShell.
-func showNotification(title, message string) {
-	script := fmt.Sprintf(
-		`Add-Type -AssemblyName System.Windows.Forms; `+
-			`$n=New-Object System.Windows.Forms.NotifyIcon; `+
-			`$n.Icon=[System.Drawing.SystemIcons]::Information; `+
-			`$n.Visible=$true; `+
-			`$n.ShowBalloonTip(4000,'%s','%s',[System.Windows.Forms.ToolTipIcon]::Info); `+
-			`Start-Sleep -s 5; `+
-			`$n.Dispose()`,
-		title, message,
-	)
-	if err := exec.Command("powershell", "-WindowStyle", "Hidden", "-Command", script).Start(); err != nil {
-		logger.Warn("Failed to show notification: %v", err)
-	}
-}
+// Platform-specific implementations are in:
+// - tray_windows.go (Windows-specific)
+// - tray_darwin.go (macOS-specific)
+// - tray_linux.go (Linux-specific)

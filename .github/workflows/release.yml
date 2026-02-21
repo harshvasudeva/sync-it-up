@@ -41,6 +41,12 @@ jobs:
         with:
           go-version: "1.21"
 
+      # macOS systray requires CGo (Xcode Command Line Tools)
+      - name: Install Xcode Command Line Tools
+        run: |
+          xcode-select --install || true
+          sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer || true
+
       - name: Build macOS arm64 (Apple Silicon)
         working-directory: companion
         run: |
@@ -49,6 +55,7 @@ jobs:
             -o ../dist/synctabs-companion-darwin-arm64 .
         env:
           GOARCH: arm64
+          CGO_ENABLED: 1
 
       - name: Build macOS amd64 (Intel)
         working-directory: companion
@@ -58,6 +65,7 @@ jobs:
             -o ../dist/synctabs-companion-darwin-amd64 .
         env:
           GOARCH: amd64
+          CGO_ENABLED: 1
 
       - uses: actions/upload-artifact@v4
         with:
