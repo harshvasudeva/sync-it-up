@@ -66,3 +66,4 @@ temp/
 *.tar.gz
 *.tar
 *.pem
+*.crx

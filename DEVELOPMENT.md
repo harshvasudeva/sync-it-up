@@ -61,6 +61,78 @@ Generated files are output to: `extension/icons/`
 
 ---
 
+## Packing the Extension (.crx)
+
+### What is .crx?
+A `.crx` file is a signed, packaged Chrome extension that can be installed directly without needing the source folder.
+
+**When to use:**
+- ✅ Distributing to specific users
+- ✅ Self-hosted updates
+- ✅ Pre-release testing
+- ❌ NOT for Chrome Web Store (submit `extension/` folder)
+
+### Create a .crx Package
+
+#### Windows
+```batch
+pack-extension.bat
+```
+
+#### macOS / Linux
+```bash
+chmod +x pack-extension.sh
+./pack-extension.sh
+```
+
+**Requirements:**
+- `extension.pem` file (your private key — stored locally, never in git)
+- Chrome or Chromium installed
+
+**Output:**
+```
+dist/synctabs-extension.crx
+```
+
+### Installation Options
+
+**Option 1: Drag & Drop**
+```
+Drag dist/synctabs-extension.crx into chrome://extensions/
+```
+
+**Option 2: Manual Install**
+```
+chrome://extensions/ → Load unpacked → select extension/ folder
+```
+
+**Option 3: Chrome Web Store**
+```
+Submit extension/ folder directly (no .crx needed)
+```
+
+### Generate Your .pem Key
+
+If you don't have `extension.pem`:
+
+1. Open `chrome://extensions/`
+2. Enable **Developer mode** (top-right toggle)
+3. Click **Pack extension**
+4. Select the `extension/` folder
+5. Leave "Private key file" blank for first time
+6. Chrome generates `extension.crx` + `extension.pem`
+7. Save the `.pem` file locally (keep it safe!)
+
+### Security Notes
+
+- ✅ Keep `extension.pem` on your machine only
+- ✅ Added to `.gitignore` (already configured)
+- ❌ Never commit to git
+- ❌ Never share publicly
+- If compromised, generate a new key (old extension ID becomes invalid)
+
+---
+
 ## Building the Companion App
 
 ### Prerequisites
