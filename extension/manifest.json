@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "SyncTabs - Cross Browser Tab Sync",
   "version": "1.0.2",
-  "description": "View and sync open tabs across all your Chromium browsers. Tabs persist even after browser close. Works with Chrome, Edge, Brave, Vivaldi, Opera.",
+  "description": "Sync tabs across Chrome, Edge, Brave, Vivaldi & Opera. See all your tabs in one place. Tabs persist after browser close.",
   "permissions": [
     "tabs",
     "storage",
