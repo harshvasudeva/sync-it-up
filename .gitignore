@@ -13,7 +13,7 @@ build/
 companion/synctabs-companion
 companion/synctabs-companion-*
 companion/.vscode/
-go.sum
+# Note: go.sum IS committed (needed for reproducible builds in CI)
 
 # ─── Node ──────────────────────────────────────────────────────────────────
 node_modules/
