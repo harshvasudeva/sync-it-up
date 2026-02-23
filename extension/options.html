@@ -10,6 +10,20 @@
   <h1>⚡ SyncTabs Settings</h1>
   <p class="subtitle">Configure cross-browser tab synchronization</p>
 
+  <!-- Appearance -->
+  <div class="section">
+    <h2>🎨 Appearance</h2>
+    <div class="field">
+      <label for="select-theme">Theme</label>
+      <select id="select-theme">
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+        <option value="system">System</option>
+      </select>
+      <div class="hint">Choose how SyncTabs pages look: popup, settings, and onboarding.</div>
+    </div>
+  </div>
+
   <!-- Connection Status -->
   <div class="section">
     <h2>📡 Connection Status</h2>
@@ -166,7 +180,7 @@
   <div class="section">
     <h2>ℹ️ About</h2>
     <div class="info-box">
-      <strong>SyncTabs v1.0.1</strong><br>
+      <strong>SyncTabs v1.0.3</strong><br>
       View and sync open tabs across Chromium browsers.<br><br>
       The extension works standalone to save your tabs locally. For cross-browser sync,
       install the free <a href="#" id="link-companion">SyncTabs Companion</a> app.<br><br>
@@ -176,12 +190,13 @@
 
   <!-- Footer -->
   <footer class="options-footer">
-    <span>SyncTabs v1.0.1</span>
+    <span>SyncTabs v1.0.3</span>
     <a id="footer-credit" href="#" class="footer-credit">
       Developed by Harsh Vasudeva
     </a>
   </footer>
 
+  <script src="theme.js"></script>
   <script src="options.js"></script>
 </body>
 </html>

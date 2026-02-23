@@ -6,9 +6,25 @@
   --text-bright: #e0e6ff;
   --accent: #7aa2f7;
   --accent-dim: #3d59a1;
+  --on-accent: #1a1b26;
   --green: #9ece6a;
   --border: #32344a;
+  --badge-optional-bg: rgba(86, 95, 137, 0.3);
   --radius: 12px;
+}
+
+:root[data-theme='light'] {
+  --bg: #f4f6fb;
+  --bg-section: #ffffff;
+  --text: #1f2842;
+  --text-dim: #6a7595;
+  --text-bright: #10182e;
+  --accent: #3b82f6;
+  --accent-dim: #c9d7ff;
+  --on-accent: #ffffff;
+  --green: #2e7d32;
+  --border: #d8e0f0;
+  --badge-optional-bg: rgba(106, 117, 149, 0.16);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -107,7 +123,7 @@ body {
 }
 
 .step-content .badge-optional {
-  background: rgba(86, 95, 137, 0.3);
+  background: var(--badge-optional-bg);
   color: var(--text-dim);
 }
 
@@ -220,7 +236,7 @@ body {
 
 .btn-primary {
   background: var(--accent);
-  color: var(--bg);
+  color: var(--on-accent);
 }
 
 .btn-primary:hover {

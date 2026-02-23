@@ -9,13 +9,42 @@
   --text-bright: #e0e6ff;
   --accent: #7aa2f7;
   --accent-dim: #3d59a1;
+  --on-accent: #1a1b26;
   --green: #9ece6a;
   --yellow: #e0af68;
   --red: #f7768e;
   --orange: #ff9e64;
   --border: #32344a;
+  --border-subtle: rgba(50, 52, 74, 0.5);
+  --elevation-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --badge-local-bg: rgba(86, 95, 137, 0.3);
+  --badge-local-text: #565f89;
+  --badge-sync-bg: rgba(158, 206, 106, 0.15);
   --radius: 8px;
   --radius-sm: 6px;
+}
+
+:root[data-theme='light'] {
+  --bg: #f4f6fb;
+  --bg-section: #ffffff;
+  --bg-hover: #edf2ff;
+  --bg-tab: #edf2ff;
+  --text: #1f2842;
+  --text-dim: #6a7595;
+  --text-bright: #10182e;
+  --accent: #3b82f6;
+  --accent-dim: #c9d7ff;
+  --on-accent: #ffffff;
+  --green: #2e7d32;
+  --yellow: #9a6b15;
+  --red: #c62828;
+  --orange: #d97706;
+  --border: #d8e0f0;
+  --border-subtle: rgba(106, 117, 149, 0.35);
+  --elevation-shadow: 0 6px 16px rgba(22, 39, 70, 0.12);
+  --badge-local-bg: rgba(106, 117, 149, 0.16);
+  --badge-local-text: #5d6a8d;
+  --badge-sync-bg: rgba(46, 125, 50, 0.12);
 }
 
 /* ─── Reset ──────────────────────────────────────────────────────────────── */
@@ -213,7 +242,7 @@ body {
   padding: 8px 14px;
   cursor: pointer;
   transition: background 0.1s;
-  border-bottom: 1px solid rgba(50, 52, 74, 0.5);
+  border-bottom: 1px solid var(--border-subtle);
   text-decoration: none;
   color: inherit;
 }
@@ -349,7 +378,7 @@ body {
 
 .btn-primary {
   background: var(--accent);
-  color: var(--bg);
+  color: var(--on-accent);
   border: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -391,12 +420,12 @@ body {
 }
 
 .mode-local {
-  background: rgba(86, 95, 137, 0.3);
-  color: var(--text-dim);
+  background: var(--badge-local-bg);
+  color: var(--badge-local-text);
 }
 
 .mode-sync {
-  background: rgba(158, 206, 106, 0.15);
+  background: var(--badge-sync-bg);
   color: var(--green);
 }
 
@@ -489,7 +518,7 @@ body {
   background: var(--bg-section);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--elevation-shadow);
   z-index: 100;
   min-width: 200px;
   max-height: 200px;
@@ -505,7 +534,7 @@ body {
   font-size: 12px;
   color: var(--text);
   transition: background 0.1s;
-  border-bottom: 1px solid rgba(50, 52, 74, 0.5);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .send-dropdown-item:last-child {
@@ -548,7 +577,7 @@ body {
   padding: 8px 14px;
   font-size: 12px;
   color: var(--text);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--elevation-shadow);
   pointer-events: auto;
   animation: toast-in 0.2s ease, toast-out 0.2s ease 2.3s forwards;
   white-space: nowrap;

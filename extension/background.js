@@ -7,6 +7,7 @@
 const DEFAULTS = {
   serverUrl: 'ws://127.0.0.1:9234',
   serverEnabled: true,
+  theme: 'dark',
   reconnectMs: 5000,
   syncDebounceMs: 1000,
   serverAutoDetect: true,
