@@ -167,6 +167,19 @@ body {
 
 .browser-icon {
   font-size: 16px;
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.browser-icon-img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  display: block;
 }
 
 .tab-count {
@@ -514,6 +527,22 @@ body {
 
 .send-dropdown-item:hover {
   background: var(--bg-hover);
+}
+
+.send-dropdown-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.send-dropdown-icon-img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  display: block;
 }
 
 .send-dropdown-item .dot {

@@ -7,7 +7,18 @@ const BROWSER_ICONS = {
   'Brave': '🟠',
   'Vivaldi': '🔴',
   'Opera': '🔴',
+  'Comet': '🌠',
+  'Helium': '🎈',
   'Chromium Browser': '⚪',
+};
+
+const BROWSER_ICON_FILES = {
+  edge: 'icons/browser/edge.png',
+  'microsoft edge': 'icons/browser/edge.png',
+  comet: 'icons/browser/comet.png',
+  'comet browser': 'icons/browser/comet.png',
+  helium: 'icons/browser/helium.png',
+  'helium browser': 'icons/browser/helium.png',
 };
 
 // Internal URL prefixes where send/incognito actions don't make sense
@@ -112,7 +123,7 @@ function renderServerBanner() {
 
 function renderSelfBrowser() {
   const name = state.browserName || 'This Browser';
-  selfBrowserIcon.textContent = BROWSER_ICONS[name] || '🌐';
+  setBrowserIconElement(selfBrowserIcon, name);
   selfBrowserName.textContent = `${name} (this)`;
   selfTabCount.textContent = state.myTabs.length;
   selfTabsEl.innerHTML = '';
@@ -184,14 +195,14 @@ function renderRemoteBrowsers() {
     // Filter out hidden tabs
     const visibleTabs = (data.tabs || []).filter(t => !hiddenRemoteTabs.has(tabKey(t)));
     const tabCount = visibleTabs.length;
-    const icon = BROWSER_ICONS[name] || '🌐';
+    const iconHtml = getBrowserIconHtml(name, 'browser-icon-img');
 
     const section = document.createElement('section');
     section.className = 'section';
     section.innerHTML = `
       <div class="section-header">
         <div class="section-title">
-          <span class="browser-icon">${icon}</span>
+          <span class="browser-icon">${iconHtml}</span>
           <span>${name}</span>
           <span class="tab-count">${tabCount}</span>
           <span class="dot ${dotClass}" style="margin-left:6px"></span>
@@ -440,8 +451,8 @@ function handleSendTab(e, tab) {
     const item = document.createElement('div');
     item.className = 'send-dropdown-item';
     const dotClass = data.online ? 'dot-online' : 'dot-stale';
-    const icon = BROWSER_ICONS[data.browserName] || '🌐';
-    item.innerHTML = `<span>${icon}</span><span>${data.browserName}</span><span class="dot ${dotClass}"></span>`;
+    const iconHtml = getBrowserIconHtml(data.browserName, 'send-dropdown-icon-img');
+    item.innerHTML = `<span class="send-dropdown-icon">${iconHtml}</span><span>${data.browserName}</span><span class="dot ${dotClass}"></span>`;
     item.addEventListener('click', async (ev) => {
       ev.preventDefault();
       ev.stopPropagation();
@@ -480,6 +491,42 @@ function dismissSendDropdown() {
 }
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
+function normalizeBrowserName(name) {
+  return typeof name === 'string' ? name.trim().toLowerCase() : '';
+}
+
+function getBrowserIconSrc(name) {
+  const key = normalizeBrowserName(name);
+  const relativePath = BROWSER_ICON_FILES[key];
+  return relativePath ? chrome.runtime.getURL(relativePath) : null;
+}
+
+function getBrowserEmoji(name) {
+  return BROWSER_ICONS[name] || '🌐';
+}
+
+function getBrowserIconHtml(name, imgClass) {
+  const src = getBrowserIconSrc(name);
+  if (!src) return getBrowserEmoji(name);
+  return `<img class="${imgClass}" src="${src}" alt="">`;
+}
+
+function setBrowserIconElement(el, name) {
+  const src = getBrowserIconSrc(name);
+  if (!src) {
+    el.textContent = getBrowserEmoji(name);
+    return;
+  }
+
+  el.textContent = '';
+  const img = document.createElement('img');
+  img.className = 'browser-icon-img';
+  img.src = src;
+  img.alt = '';
+  img.decoding = 'async';
+  el.appendChild(img);
+}
+
 function isInternalUrl(url) {
   if (!url) return true;
   try {
@@ -641,8 +688,10 @@ chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type === 'connection-status') {
     state.connected = msg.connected;
     state.serverDetected = msg.serverDetected || state.serverDetected;
+    if (msg.browserName) state.browserName = msg.browserName;
     renderConnectionStatus();
     renderServerBanner();
+    renderSelfBrowser();
   }
   if (msg.type === 'server-detected') {
     state.serverDetected = true;

@@ -10,6 +10,7 @@ const DEFAULTS = {
   reconnectMs: 5000,
   syncDebounceMs: 1000,
   serverAutoDetect: true,
+  browserNameOverride: '',
 };
 
 const HEARTBEAT_ALARM = 'synctabs-heartbeat';
@@ -66,13 +67,26 @@ function detectBrowser() {
   return 'Chromium Browser';
 }
 
+function normalizeBrowserName(name) {
+  if (typeof name !== 'string') return '';
+  return name.trim().replace(/\s+/g, ' ').slice(0, 64);
+}
+
+function getEffectiveBrowserName(detectedName) {
+  const override = normalizeBrowserName(settings.browserNameOverride);
+  return override || detectedName;
+}
+
 // ─── Unique Browser ID ────────────────────────────────────────────────────────
 async function getOrCreateBrowserId() {
   const result = await chrome.storage.local.get(['synctabs_browser_id', 'synctabs_browser_name']);
+  const detected = detectBrowser();
+  const effectiveName = getEffectiveBrowserName(detected);
+
   if (result.synctabs_browser_id) {
     browserId = result.synctabs_browser_id;
-    // Always re-detect; UA can change after browser update
-    browserName = detectBrowser();
+    // Always re-evaluate; UA can change after browser update and user may set override
+    browserName = effectiveName;
     // Persist updated name
     if (browserName !== result.synctabs_browser_name) {
       await chrome.storage.local.set({ synctabs_browser_name: browserName });
@@ -80,15 +94,30 @@ async function getOrCreateBrowserId() {
     return;
   }
   // First-time install
-  const detected = detectBrowser();
   const hex = Array.from(crypto.getRandomValues(new Uint8Array(8)))
     .map(b => b.toString(16).padStart(2, '0')).join('');
-  browserId = `${detected.replace(/\s+/g, '-').toLowerCase()}-${hex}`;
-  browserName = detected;
+  browserId = `${effectiveName.replace(/\s+/g, '-').toLowerCase()}-${hex}`;
+  browserName = effectiveName;
   await chrome.storage.local.set({
     synctabs_browser_id: browserId,
     synctabs_browser_name: browserName,
   });
+}
+
+async function refreshBrowserName() {
+  const detected = detectBrowser();
+  const effectiveName = getEffectiveBrowserName(detected);
+  if (!effectiveName || effectiveName === browserName) return false;
+
+  browserName = effectiveName;
+  await chrome.storage.local.set({ synctabs_browser_name: browserName });
+
+  if (ws && ws.readyState === WebSocket.OPEN && browserId) {
+    ws.send(JSON.stringify({ type: 'register', browserId, browserName }));
+    const tabs = await collectTabs();
+    ws.send(JSON.stringify({ type: 'tabs-update', tabs }));
+  }
+  return true;
 }
 
 // ─── URL Validation ──────────────────────────────────────────────────────────
@@ -238,7 +267,7 @@ async function connectWebSocket() {
     await saveTabsLocally(tabs);
     if (socket.readyState !== WebSocket.OPEN) return;
     socket.send(JSON.stringify({ type: 'tabs-update', tabs }));
-    notifyPopup({ type: 'connection-status', connected: true, serverDetected: true });
+    notifyPopup({ type: 'connection-status', connected: true, serverDetected: true, browserName });
   };
 
   ws.onmessage = async (event) => {
@@ -311,7 +340,7 @@ async function connectWebSocket() {
     console.log('[SyncTabs] Disconnected');
     isConnected = false;
     ws = null;
-    notifyPopup({ type: 'connection-status', connected: false, serverDetected });
+    notifyPopup({ type: 'connection-status', connected: false, serverDetected, browserName });
     scheduleReconnect();
   };
 
@@ -463,8 +492,10 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     }
     case 'update-settings': {
       (async () => {
+        await waitForInit();
         const oldEnabled = settings.serverEnabled;
         await saveSettings(msg.settings);
+        await refreshBrowserName();
         if (settings.serverEnabled && !oldEnabled) {
           const found = await probeServer();
           if (found) connectWebSocket();
