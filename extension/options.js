@@ -10,6 +10,7 @@ const browserIdEl = document.getElementById('browser-id');
 const toggleServer = document.getElementById('toggle-server');
 const inputServerUrl = document.getElementById('input-server-url');
 const toggleAutoDetect = document.getElementById('toggle-auto-detect');
+const inputBrowserName = document.getElementById('input-browser-name');
 const btnSave = document.getElementById('btn-save');
 const btnTest = document.getElementById('btn-test');
 const savedMsg = document.getElementById('saved-msg');
@@ -42,6 +43,9 @@ async function init() {
       toggleServer.checked = settings.serverEnabled !== false;
       inputServerUrl.value = settings.serverUrl || 'ws://127.0.0.1:9234';
       toggleAutoDetect.checked = settings.serverAutoDetect !== false;
+      if (inputBrowserName) {
+        inputBrowserName.value = settings.browserNameOverride || '';
+      }
 
       // Permission status
       if (state.hasHostPermission) {
@@ -62,7 +66,8 @@ btnSave.addEventListener('click', async () => {
   const newSettings = {
     serverEnabled: toggleServer.checked,
     serverUrl: inputServerUrl.value.trim() || 'ws://127.0.0.1:9234',
-    serverAutoDetect: toggleAutoDetect.checked
+    serverAutoDetect: toggleAutoDetect.checked,
+    browserNameOverride: inputBrowserName ? inputBrowserName.value.trim() : '',
   };
 
   try {
