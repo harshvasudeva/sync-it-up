@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SyncTabs - Cross Browser Tab Sync",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Sync tabs across Chrome, Edge, Brave, Vivaldi & Opera. See all your tabs in one place. Tabs persist after browser close.",
   "permissions": [
     "tabs",
